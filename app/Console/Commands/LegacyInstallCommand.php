@@ -27,10 +27,14 @@ class LegacyInstallCommand extends Command
      */
     public function handle()
     {
+        $path = env('LEGACY_PATH');
+
+        passthru('chmod +x vendor/portabilis/jasperphp/src/JasperStarter/bin/jasperstarter');
         passthru('chmod -R 777 bootstrap/cache');
         passthru('chmod -R 777 storage');
-        passthru('chmod -R 777 ieducar/modules/Reports/ReportSources/Portabilis');
-        passthru('chmod +x vendor/portabilis/jasperphp/src/JasperStarter/bin/jasperstarter');
+        passthru(
+            sprintf('chmod -R 777 %s/modules/Reports/ReportSources/Portabilis', $path)
+        );
 
         $this->call('key:generate');
         $this->call('legacy:link');
